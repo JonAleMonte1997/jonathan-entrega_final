@@ -5,6 +5,7 @@ import com.jam.projects.appmedica.dtos.PatientDto;
 import com.jam.projects.appmedica.dtos.VitalSignDto;
 import com.jam.projects.appmedica.entities.Patient;
 import com.jam.projects.appmedica.entities.VitalSign;
+import com.jam.projects.appmedica.security.entities.UserEntity;
 import com.jam.projects.appmedica.services.PatientService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,11 +27,15 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+
 @SpringBootTest
 @AutoConfigureMockMvc
 @ExtendWith(MockitoExtension.class)
-@WithMockUser(username = "user", password = "user", roles = "USER")
+@WithMockUser(username = "doctor", roles = {"DOCTOR"},password = "doctor")
 class PatientControllerTest {
+
+    @Autowired
+    PatientController patientController;
 
     @MockBean
     PatientService patientService;
@@ -108,13 +113,14 @@ class PatientControllerTest {
                 .andExpect(jsonPath("$.length()").value(vitalSignExpectedList.size()));
     }
 
+
     @Test
     void createPatient() throws Exception {
 
         PatientDto patientDto = new PatientDto();
         patientDto.setName("Jonathan");
 
-        Patient patientExpected = new Patient(patientDto);
+        Patient patientExpected = new Patient(patientDto, new UserEntity());
 
         String patientDtoJson = new ObjectMapper().writeValueAsString(patientDto);
 
@@ -167,6 +173,7 @@ class PatientControllerTest {
                 .andExpect(jsonPath("$.length()").value(patientList.size()));
     }
 
+
     @Test
     void updatePatientNameAndDateOfBirth() throws Exception {
 
@@ -175,7 +182,7 @@ class PatientControllerTest {
         PatientDto patientDto = new PatientDto();
         patientDto.setName("Jonathan");
 
-        Patient patientExpected = new Patient(patientDto);
+        Patient patientExpected = new Patient(patientDto,new UserEntity());
 
         String patientDtoJson = new ObjectMapper().writeValueAsString(patientDto);
 
@@ -219,5 +226,15 @@ class PatientControllerTest {
         this.mockMvc
                 .perform(delete("/api/patients/" + id))
                 .andExpect(status().isNoContent());
+    }
+
+    @Test
+    void findPatientByUser() throws Exception{
+
+        Mockito.when(patientService.findPatientByUser()).thenReturn(new Patient());
+
+        this.mockMvc
+                .perform(get("/api/patients/user"))
+                .andExpect(status().isOk());
     }
 }

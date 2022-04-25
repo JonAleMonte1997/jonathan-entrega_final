@@ -6,6 +6,8 @@ import com.jam.projects.appmedica.entities.Patient;
 import com.jam.projects.appmedica.entities.VitalSign;
 import com.jam.projects.appmedica.exceptions.MaxSizeListExceededException;
 import com.jam.projects.appmedica.repositories.PatientRepository;
+import com.jam.projects.appmedica.security.entities.UserEntity;
+import com.jam.projects.appmedica.security.services.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -15,6 +17,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.test.context.support.WithMockUser;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
@@ -27,6 +31,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(MockitoExtension.class)
+@WithMockUser(username = "patient 1", roles = {"USER"}, password = "patient1")
 class PatientServiceTest {
 
     @InjectMocks
@@ -35,14 +40,23 @@ class PatientServiceTest {
     @Mock
     PatientRepository patientRepository;
 
+    @Mock
+    UserService userService;
+
     @Test
     void createPatient() {
 
         PatientDto patientDto = new PatientDto();
 
-        Patient patientExpected = new Patient(patientDto);
+        UserEntity userCreated = new UserEntity();
 
-        Mockito.when(patientRepository.save(new Patient(patientDto))).thenReturn(patientExpected);
+        Patient patientExpected = new Patient(patientDto, userCreated);
+
+        Mockito.when(userService.createUser(patientDto.getUser())).thenReturn(userCreated);
+
+        Mockito.doNothing().when(userService).addRolToUser(userCreated.getUsername(), "ROLE_USER");
+
+        Mockito.when(patientRepository.save(new Patient(patientDto, userCreated))).thenReturn(patientExpected);
 
         assertThat(patientService.createPatient(patientDto)).isEqualTo(patientExpected);
     }
