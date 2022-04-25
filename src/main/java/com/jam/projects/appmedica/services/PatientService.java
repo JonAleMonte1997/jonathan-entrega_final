@@ -7,11 +7,17 @@ import com.jam.projects.appmedica.entities.VitalSign;
 import com.jam.projects.appmedica.exceptions.MaxSizeListExceededException;
 import com.jam.projects.appmedica.generic.GenericService;
 import com.jam.projects.appmedica.repositories.PatientRepository;
+import com.jam.projects.appmedica.security.entities.UserEntity;
+import com.jam.projects.appmedica.security.services.UserService;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,14 +28,21 @@ public class PatientService extends GenericService<Patient, Integer> {
 
     private PatientRepository patientRepository;
 
-    protected PatientService(PatientRepository repository) {
+    private UserService userService;
+
+    protected PatientService(PatientRepository repository, UserService userService) {
         super(repository);
         this.patientRepository = repository;
+        this.userService = userService;
     }
 
     public Patient createPatient(PatientDto patientDto) {
 
-        return patientRepository.save(new Patient(patientDto));
+        UserEntity patientUser = userService.createUser(patientDto.getUser());
+
+        userService.addRolToUser(patientUser.getUsername(), "ROLE_USER");
+
+        return patientRepository.save(new Patient(patientDto, patientUser));
     }
 
     public List<Patient> findAllPatientWithPagination(Integer offset, Integer pageSize) {
@@ -119,5 +132,14 @@ public class PatientService extends GenericService<Patient, Integer> {
         patientToUpdate.copyAttributes(patient);
 
         return patientRepository.save(patientToUpdate);
+    }
+
+    public Patient findPatientByUser() {
+
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        UserEntity userEntity = userService.findUserByUsername(userDetails.getUsername());
+
+        return patientRepository.findPatientByUser(userEntity).orElseThrow(() -> new EntityNotFoundException("Patient not found"));
     }
 }

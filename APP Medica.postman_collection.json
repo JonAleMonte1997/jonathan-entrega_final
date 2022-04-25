@@ -1,0 +1,537 @@
+{
+	"info": {
+		"_postman_id": "8de97b34-ac50-449c-8d5c-4db8412cba50",
+		"name": "APP Medica",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "security",
+			"item": [
+				{
+					"name": "findAllUsers",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJudXJzZSIsInJvbGVzIjpbIlJPTEVfTlVSU0UiXSwiZXhwIjoxNjUwNTk5MDE3LCJpYXQiOjE2NTA1NzAyMTd9.wsiz8QVhPWJO8o1vPFgTyTSUbH2yMLnXwV9W6nnrAEI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_dev}}/users",
+							"host": [
+								"{{url_dev}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createRol",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"ROLE_USER\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_dev}}/users/rol",
+							"host": [
+								"{{url_dev}}"
+							],
+							"path": [
+								"users",
+								"rol"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"doctor\",\r\n    \"password\": \"doctor\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_dev}}/users",
+							"host": [
+								"{{url_dev}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addRolToUser",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url_dev}}/users/rol?username=doctor&rolname=ROLE_DOCTOR",
+							"host": [
+								"{{url_dev}}"
+							],
+							"path": [
+								"users",
+								"rol"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "doctor"
+								},
+								{
+									"key": "rolname",
+									"value": "ROLE_DOCTOR"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "nurse",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "nurse",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/api/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "createPatient",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJudXJzZSIsInJvbGVzIjpbIlJPTEVfTlVSU0UiXSwiZXhwIjoxNjUwNDE1MTQ3LCJpYXQiOjE2NTAzODYzNDd9.uOEYDvPQrFDskIgB4a_KMjHx-WvH0sopGc11uAVgfAM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"name 3\",\r\n    \"dateOfBirth\": \"19-04-2022\",\r\n    \"user\":{\r\n        \"username\": \"patient 3\",\r\n        \"password\": \"123\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_dev}}/patients",
+					"host": [
+						"{{url_dev}}"
+					],
+					"path": [
+						"patients"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "findAllPatientWithPagination",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJudXJzZSIsInJvbGVzIjpbIlJPTEVfTlVSU0UiXSwiZXhwIjoxNjUwNTk5MzQ3LCJpYXQiOjE2NTA1NzA1NDd9.YD24UnU1hxU8caVHV0QihFqp5ElgCt2NcReHgASR9kI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url_dev}}/patients",
+					"host": [
+						"{{url_dev}}"
+					],
+					"path": [
+						"patients"
+					],
+					"query": [
+						{
+							"key": "offset",
+							"value": "0",
+							"disabled": true
+						},
+						{
+							"key": "pageSize",
+							"value": "10",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "findAllPatientByName",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url_dev}}/patients/name/name 2",
+					"host": [
+						"{{url_dev}}"
+					],
+					"path": [
+						"patients",
+						"name",
+						"name 2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "findPatientById",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkb2N0b3IiLCJyb2xlcyI6WyJST0xFX0RPQ1RPUiJdLCJleHAiOjE2NTA0MDMzNTMsImlhdCI6MTY1MDM3NDU1M30._uctaevnq-37-d582zRuUQDh5U6qemwHlngx--zew-Y",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url_dev}}/patients/1",
+					"host": [
+						"{{url_dev}}"
+					],
+					"path": [
+						"patients",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "findPatientVitalSignById",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url_dev}}/patients/2/vitalSignList",
+					"host": [
+						"{{url_dev}}"
+					],
+					"path": [
+						"patients",
+						"2",
+						"vitalSignList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addVitalSignByPatientId",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"bloodPressure\": 120,\r\n    \"heartRate\": 123\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_dev}}/patients/1/vitalSignList",
+					"host": [
+						"{{url_dev}}"
+					],
+					"path": [
+						"patients",
+						"1",
+						"vitalSignList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updatePatientNameAndDateOfBirth",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"jona\",\r\n    \"dateOfBirth\": \"1997-12-10\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_dev}}/patients/1",
+					"host": [
+						"{{url_dev}}"
+					],
+					"path": [
+						"patients",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deletePatient",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkb2N0b3IiLCJyb2xlcyI6WyJST0xFX0RPQ1RPUiJdLCJleHAiOjE2NTA0MDMzNTMsImlhdCI6MTY1MDM3NDU1M30._uctaevnq-37-d582zRuUQDh5U6qemwHlngx--zew-Y",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url_dev}}/patients/1",
+					"host": [
+						"{{url_dev}}"
+					],
+					"path": [
+						"patients",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updatePatientVitalSign",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n        \"bloodPressure\": 12,\r\n        \"heartRate\": 32\r\n    }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_dev}}/patients/3/vitalSignList",
+					"host": [
+						"{{url_dev}}"
+					],
+					"path": [
+						"patients",
+						"3",
+						"vitalSignList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createPatientsBatch",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "user",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n        \"id\": 4,\r\n        \"name\": \"name 4 update\",\r\n        \"dateOfBirth\": \"2022-03-01\",\r\n        \"vitalSignList\": [\r\n            {\r\n                \"bloodPressure\": 10,\r\n                \"heartRate\": 10\r\n            }\r\n        ]\r\n    },\r\n    {\r\n        \"id\": 5,\r\n        \"name\": \"name 5 update\",\r\n        \"dateOfBirth\": \"2022-03-01\",\r\n        \"vitalSignList\": []\r\n    },\r\n    {\r\n        \"id\": 6,\r\n        \"name\": \"name 6 update\",\r\n        \"dateOfBirth\": \"2022-03-01\",\r\n        \"vitalSignList\": [\r\n            {\r\n                \"bloodPressure\": 10,\r\n                \"heartRate\": 10\r\n            }\r\n        ]\r\n    },\r\n    {\r\n        \"id\": 7,\r\n        \"name\": \"name 7\",\r\n        \"dateOfBirth\": \"2022-03-01\",\r\n        \"vitalSignList\": []\r\n    },\r\n    {\r\n        \"id\": 3,\r\n        \"name\": \"name 3 update\",\r\n        \"dateOfBirth\": \"2022-03-01\",\r\n        \"vitalSignList\": [\r\n            {\r\n                \"bloodPressure\": 10,\r\n                \"heartRate\": 10\r\n            },\r\n            {\r\n                \"bloodPressure\": 20,\r\n                \"heartRate\": 10\r\n            }\r\n        ]\r\n    },\r\n    {\r\n    \"name\": \"name 3\",\r\n    \"dateOfBirth\": \"2022-03-01\"\r\n    }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_dev}}/patients/batch",
+					"host": [
+						"{{url_dev}}"
+					],
+					"path": [
+						"patients",
+						"batch"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "count",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJudXJzZSIsInJvbGVzIjpbIlJPTEVfTlVSU0UiXSwiZXhwIjoxNjUwNTk5MzQ3LCJpYXQiOjE2NTA1NzA1NDd9.YD24UnU1hxU8caVHV0QihFqp5ElgCt2NcReHgASR9kI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url_dev}}/patients/count",
+					"host": [
+						"{{url_dev}}"
+					],
+					"path": [
+						"patients",
+						"count"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "findPatientByUser",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJudXJzZSIsInJvbGVzIjpbIlJPTEVfTlVSU0UiXSwiZXhwIjox",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url_dev}}/patients/user",
+					"host": [
+						"{{url_dev}}"
+					],
+					"path": [
+						"patients",
+						"user"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url_dev",
+			"value": "http://localhost:8080/api",
+			"type": "string"
+		},
+		{
+			"key": "url",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	]
+}

@@ -1,5 +1,7 @@
 package com.jam.projects.appmedica.dtos;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.jam.projects.appmedica.security.dtos.UserDto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,7 +14,10 @@ public class PatientDto {
 
     private String name;
 
+    @JsonFormat(pattern="dd-MM-yyyy")
     private LocalDate dateOfBirth;
 
     private List<VitalSignDto> vitalSignDtoList;
+
+    private UserDto user;
 }
